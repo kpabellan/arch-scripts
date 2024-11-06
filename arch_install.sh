@@ -36,8 +36,8 @@ read -s -p "Enter encryption password for the root partition: " ENC_PASS
 echo  # Newline for formatting after password input
 
 # Disk Wiping Step
-read -p "Do you want to wipe $DISK with random data before installation? (y/n): " confirm
-if [[ $confirm == "y" ]]; then
+read -p "Do you want to wipe $DISK with random data before installation? (y/n): " CONFIRM
+if [[ "$CONFIRM" == "y" || "$CONFIRM" == "Y" ]]; then
     echo "Wiping $DISK with random data. This may take a while..."
     dd if=/dev/urandom of="$DISK" bs=1M status=progress
     echo "Disk wipe complete."
