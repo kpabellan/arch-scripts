@@ -67,13 +67,13 @@ if grep -q "resume=UUID=" "$GRUB_FILE"; then
     # Replace existing 'resume' and 'resume_offset'
     sudo sed -i "s/\(resume=UUID=\)[^ ]*/\1$ROOT_UUID/" "$GRUB_FILE"
     sudo sed -i "s/\(resume_offset=\)[^ ]*/\1$SWAPFILE_OFFSET/" "$GRUB_FILE"
+
+    # Ensure the ending quote is present by appending it if missing
+    sudo sed -i "s/^\(GRUB_CMDLINE_LINUX_DEFAULT=\".*\)\([^\"]*\)$/\1\2\"/" "$GRUB_FILE"
 else
     # Add 'resume' and 'resume_offset' if they don't exist
     sudo sed -i "s/^\(GRUB_CMDLINE_LINUX_DEFAULT=\".*\)\"/\1 resume=UUID=$ROOT_UUID resume_offset=$SWAPFILE_OFFSET\"/" "$GRUB_FILE"
 fi
-
-# Ensure the ending quote is present by appending it if missing
-sudo sed -i "s/^\(GRUB_CMDLINE_LINUX_DEFAULT=\".*\)\([^\"]*\)$/\1\2\"/" "$GRUB_FILE"
 
 # Regenerate the GRUB configuration
 echo "Regenerating GRUB configuration..."
